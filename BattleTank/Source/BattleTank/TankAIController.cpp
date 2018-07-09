@@ -2,7 +2,7 @@
 
 #include "TankAIController.h"
 
-void ATankAIController::BeginPlay()  {
+void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
 
 	auto tank = GetControlledTank();
@@ -21,6 +21,15 @@ void ATankAIController::BeginPlay()  {
 		UE_LOG(LogTemp, Warning, TEXT("%s has no target."), *GetName())
 	}
 
+}
+
+void ATankAIController::Tick(float DeltaTime) {
+	Super::Tick(DeltaTime);
+
+	auto PlayerTank = GetPlayerTank();
+	if(PlayerTank) {
+		GetControlledTank()->AimAt(PlayerTank->GetActorLocation());
+	}
 }
 
 ATank* ATankAIController::GetControlledTank() const {
